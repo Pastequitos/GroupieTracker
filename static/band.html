@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+    
+    <head>
+        <link rel="stylesheet" href="../static/band.css">
+        
+        <title>{{.Name}}</title>
+    </head>
+    
+    <body>
+<section>
+
+    <header>{{.Name}}</header>
+    <header class="between">{{.Name}}</header>
+
+    <header class="front">{{.Name}}</header>
+
+    <div class="quick-load"></div>
+    <div class="bg-cover">
+        <img src={{.Image}} class="bg-cover-img">
+        </div>
+        <div class="bottom-slider">
+            <span class="bottom-arrow"></span>
+        </div>
+</section>
+<section>
+    <div class="transi">
+        <div class="arrondi"></div>
+        <div class="arrondi2"></div>
+        <div class="arrondi3"></div>
+    </div>
+</section>
+
+        
+<div class="Cover">
+    <img src={{.Image}} height="300" width="300">
+    </div>
+    <div class="Premier-album">
+        <h2>Premier album : </h2>
+        <h3>{{.FirstAlbum}}</h3>
+    </div>
+    <div class="Date-de-creation">
+        <h2>Date de création : </h2>
+        <h3>{{.CreationDate}}</h3>
+    </div>
+    <div class="Membres">
+        <h2>Membres : </h2>
+        <h3>{{range $m := .Members}}
+            <div>{{$m}}</div>
+            {{end}}
+        </h3>
+    </div>
+
+    <div class="Relation">
+        <h2>Concert, Localisation et Dates : </h2>
+        <h4>{{range $m := .RelationA}}
+            <div>{{$m}}</div>
+        {{end}}</h4>
+    </div>
+
+    {{ range .Geolocalisation}}
+    <div class="geolocalisation">
+        <h3>{{.Location}} :
+            {{range .Dates}}
+            {{.}}
+            {{end}}
+        </h3>
+        <div class="map">
+
+            <iframe width="100%" height="300px"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d20751.12220678502!2d{{.Longitude}}!3d{{.Latitude}}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1692349734002!5m2!1sfr!2sfr">
+        </iframe>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Google_Maps_pin.svg/1200px-Google_Maps_pin.svg.png" class="viseurlaser">
+    </div>
+    {{ end }}
+</div>
+</body>
+<script>
+        let bg = document.getElementsByClassName("bg-cover-img")[0];
+        const ql = document.getElementsByClassName('quick-load')[0];
+        const title = document.querySelector('header');
+    let transi = document.getElementsByClassName("transi")[0];
+    let arrondi = document.getElementsByClassName("arrondi")[0];
+    let arrondi2 = document.getElementsByClassName("arrondi2")[0];
+    let arrondi3 = document.getElementsByClassName("arrondi3")[0];
+
+    window.addEventListener('scroll', function () {
+        var value = window.scrollY;
+        bg.style.transform = 'translateY(' + value * 0.5 + 'px) scale(' + (1 + value / 5000) + ')';
+    
+        transi.style.transform = 'translateX(' + value * 0.4 + 'px) translateY(-' + value * 1.2 + 'px) rotate(' + value * 0.006 + 'deg)';
+        arrondi.style.transform = ' rotate(' + 90 + value * 0.012 + 'deg)';
+        arrondi2.style.transform = ' rotate(' + 90 + value * 0.005 + 'deg)';
+        arrondi3.style.transform = ' rotate(' + 90 + value * 0.0001 + 'deg)';
+        console.log( (1 - value / 100000000) )
+    });
+    
+    window.addEventListener("load", () => {
+title.style.transform = 'translateY(0vh)'
+        ql.style.opacity = 0.3
+
+    })
+</script>
+</html>

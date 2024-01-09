@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupie Tracker</title>
+</head>
+
+<body>
+    <div class="loader">
+        <span class="wsqr"></span>
+        <p class="groupie-tracker">WELCOME TO</p>
+    </div>
+
+    <header>
+        <div class="groupie-tracker"> GROUPIE TRACKER</div>
+        <div class="groupie-tracker front">GROUPIE TRACKER</div>
+        <img src="static/img/travis-background.png" class="travis-background">
+        <img src="static/img/travis.png" class="travis">
+        <div class="bgdiap"></div>
+        <div class="bottom-slider">
+            <span class="bottom-arrow"></span>
+        </div>
+    </header>
+
+
+    <section>
+        <div class="transi">
+            <div class="arrondi"></div>
+            <div class="arrondi2"></div>
+            <div class="arrondi3"></div>
+        </div>
+    </section>
+
+
+    <main class="content">
+        {{range .}}
+        <div class="groupe">
+            <form method="GET" action="/band/">
+                <button class="buttonartist" type="submit"></button>
+                <img class="image" src={{.Image}}>
+                <input type="hidden" name="ID" value={{.ID}}>
+            </form>
+            <div class="contenu">
+                <div class="wikiartist">
+                    <label class="nom-groupe">{{.Name}}</label>
+                    <label class="text-test">{{range $m := .Members}}</label>
+                    <label class="groupe-membres">{{$m}}</label>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+        </div>
+        {{end}}
+    </main>
+
+    <footer>
+        <div class="cesar"> Front-End par ENZO aka le Front-End Master, Back-End par Allan aka le Back-End Master</div>
+    </footer>
+
+    <script>
+        let travis = document.getElementsByClassName("travis")[0];
+        let bg = document.getElementsByClassName("travis-background")[0];
+        let transi = document.getElementsByClassName("transi")[0];
+        let arrondi = document.getElementsByClassName("arrondi")[0];
+        let arrondi2 = document.getElementsByClassName("arrondi2")[0];
+        let arrondi3 = document.getElementsByClassName("arrondi3")[0];
+
+        let images = [
+            { name: "travis", background: "travis-background" },
+            { name: "freddy", background: "freddy-background" }
+        ];
+
+        let currentIndex = 0;
+
+        function changeImages() {
+            let currentImage = images[currentIndex];
+            fadeOut(travis);
+            fadeOut(bg);
+            setTimeout(() => {
+                travis.src = `static/img/${currentImage.name}.png`;
+                bg.src = `static/img/${currentImage.background}.png`;
+                fadeIn(travis);
+                fadeIn(bg);
+            }, 500);
+        }
+        function fadeOut(element) {
+            element.style.opacity = 0;
+        }
+        function fadeIn(element) {
+            setTimeout(() => {
+                element.style.opacity = 1;
+            }, 500);
+        }
+
+        window.addEventListener('scroll', function () {
+            var value = window.scrollY;
+            bg.style.transform = 'translateX(-50%) translateY(' + value * 0.5 + 'px) scale(' + (1 + value / 5000) + ')';
+            travis.style.transform = 'translateX(-50%) translateY(' + value * 0.3 + 'px) scale(' + (1 + value / 3000) + ')';
+            transi.style.transform = 'translateX(' + value * 0.4 + 'px) translateY(-' + value * 1.2 + 'px) rotate(' + value * 0.006 + 'deg)';
+            arrondi.style.transform = ' rotate(' + 90 + value * 0.012 + 'deg)';
+            arrondi2.style.transform = ' rotate(' + 90 + value * 0.005 + 'deg)';
+            arrondi3.style.transform = ' rotate(' + 90 + value * 0.0001 + 'deg)';
+        });
+
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            changeImages();
+        }, 10000);
+
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader")
+            loader.classList.add("-loaded")
+            loader.addEventListener("transitionend", () => {
+                document.body.removeChild(loader)
+            })
+        })
+    </script>
+</body>
+
+</html>
